@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle Switch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button.on {
+            background-color: #4CAF50; /* Green for "on" */
+        }
+        button.off {
+            background-color: #f44336; /* Red for "off" */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Toggle Switch</h1>
+
+    <?php
+    // Error reporting to catch potential issues
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    // Ensure the status.txt file is accessible
+    $file_path = 'status.txt';
+
+    // Read the current status
+    $status = file_exists($file_path) ? file_get_contents($file_path) : 'off';
+
+    // If the button is pressed, toggle the status
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $status = $status === 'on' ? 'off' : 'on';
+        file_put_contents($file_path, $status);  // Save the new status to the file
+    }
+
+    // Set the button class and text based on the current status
+    $button_class = $status === 'on' ? 'on' : 'off';
+    $button_text = $status === 'on' ? 'Turn Off' : 'Turn On';
+    ?>
+
+    <!-- The button that toggles the switch -->
+    <form method="post">
+        <button type="submit" class="<?php echo $button_class; ?>">
+            <?php echo $button_text; ?>
+        </button>
+    </form>
+
+</body>
+</html>
